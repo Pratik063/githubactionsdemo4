@@ -7,16 +7,19 @@ on:
       - main
 
 jobs:
-    extract-data-job:
+  extract-data-job:
         runs-on: ubuntu-latest
-        
+       
         steps:
          - name: checkut code
            uses: actions/checkout@v2
 
+         - name: install required dependencies
+           run: pip install pandas
+
          - name: run extract-data-job
            run: python extract.py
-    transform-data-job:
+  transform-data-job:
         runs-on: ubuntu-latest
         needs: extract-data-job
         steps:
@@ -26,7 +29,7 @@ jobs:
          - name: run transform-data-job
            run: python transform.py
            
-    load-data-job:
+  load-data-job:
         runs-on: ubuntu-latest
         needs: transform-data-job
         steps:
@@ -34,9 +37,9 @@ jobs:
            uses: actions/checkout@v2
          - name: run load-data-job
            run: python load.py  
-    dataframe-job:
+  dataframe-job:
         runs-on: ubuntu-latest
-        
+
         steps:
           - name: checkout code
             uses: actions/checkout@v2
